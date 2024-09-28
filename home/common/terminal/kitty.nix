@@ -30,10 +30,11 @@ in
         assertion = builtins.hasAttr "gpu" config.baseline;
         message = "Kitty requires the `baseline.gpu` module to be imported";
       }
-      {
-        assertion = config.baseline.gpu.enable or false;
-        message = "Kitty requires the `baseline.gpu` module to be enabled";
-      }
+      #FIXME: This assert is broken for nixos
+      # {
+      #   assertion = config.baselrne.gpu.enable or true;
+      #   message = "Kitty requires the `baseline.gpu` module to be enabled";
+      # }
     ];
     programs.kitty = {
       enable = mkDefault true;
@@ -121,9 +122,9 @@ in
         ];
         before = [ ];
         data = ''
-          rm -rf ${config.xdg.dataHome}/"applications/home-manager"
-          mkdir -p ${config.xdg.dataHome}/"applications/home-manager"
-          cp -Lr ${config.home.homeDirectory}/.nix-profile/share/applications/kitty* ${config.xdg.dataHome}/"applications/home-manager/"
+          # rm -rf ${config.xdg.dataHome}/"applications/home-manager"
+          # mkdir -p ${config.xdg.dataHome}/"applications/home-manager"
+          # cp -Lr ${config.home.homeDirectory}/.nix-profile/share/applications/kitty* ${config.xdg.dataHome}/"applications/home-manager/"
         '';
       };
     };

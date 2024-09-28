@@ -8,7 +8,6 @@ let
   impure = cfg.nvidia.driverHash == null && cfg.nvidia.driverVersion == null;
 in
 final: prev: {
-
   gpu-wrappers =
     let
       nixglPkgs = "${self}#legacyPackages.${final.system}.nixgl";

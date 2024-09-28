@@ -55,7 +55,7 @@ in
       enable = true;
       enableVulkan = true;
     };
-    nix.enable = true; # TODO: this does not cover the case I want it does not control the nix version
+    # nix.enable = true; # TODO: this does not cover the case I want it does not control the nix version
     nixpkgs.enable = true;
     tools.enable = true;
     terminal.enable = true;
@@ -66,7 +66,7 @@ in
 
   programs.git = {
     signing = {
-      key = "5A2DAA31F5457F29";
+      key = null;
     };
     userEmail = "timbama@gmail.com";
     userName = "Timothy Gallion";

@@ -17,7 +17,7 @@ in
       systemctlPath = "/usr/bin/systemctl";
     };
     # TODO: this is not great for nixos hosts
-    targets.genericLinux.enable = true;
+    targets.genericLinux.enable = false;
 
     xdg.enable = true;
 

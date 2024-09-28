@@ -30,28 +30,54 @@
       url = "github:gcc-mirror/gcc?ref=releases/gcc-13.3.0&shallow=1";
       flake = false;
     };
-  };
 
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
+  };
   outputs =
     {
       self,
       nixpkgs,
       home-manager,
+      nixos-hardware,
       ...
     }:
     let
+      system = "x86_64-linux";
       overlays = import ./overlays {
         inherit self;
         lib = nixpkgs.lib;
       };
-      system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
         overlays = [ overlays.default ];
       };
     in
     {
+      nixosConfigurations.xps15 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = false;
+            home-manager.useUserPackages = true;
+            home-manager.users.tgallion = import ./home/tgallion.nix;
+
+            # Optionally, use home-manager.extraSpecialArgs to pass
+            home-manager.extraSpecialArgs = {
+              inherit self;
+            };
+            # arguments to home.nix
+          }
+          nixos-hardware.nixosModules.dell-xps-15-9570
+        ];
+        specialArgs = {
+          inherit self;
+        };
+      };
+
       inherit overlays;
+
       homeConfigurations.${"tgallion"} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ ./home/tgallion.nix ];
@@ -65,6 +91,5 @@
       legacyPackages.${system} = pkgs;
 
       homeModules = (import ./home) self;
-
     };
 }
